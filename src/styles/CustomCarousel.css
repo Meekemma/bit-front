@@ -65,7 +65,7 @@
 }
 
 /* CSS for the button styling */
-.create-account-button {
+.create-button {
   background-color: #1D2B53; /* Background color */
   color: white; /* Text color */
   border: none; /* Remove default border */
@@ -135,4 +135,40 @@
 .subscription-button:hover {
   background-color: #f8f9fa;
   color: #1D2B53;
+}
+/* Ensure the container allows horizontal scrolling */
+/* Container for hiding overflow */
+.relative {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Scroll animation */
+.animate-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  animation: scroll-left 30s linear infinite;
+}
+
+/* Keyframes for scrolling effect */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Optional: Adjust spacing */
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.w-16 {
+  width: 4rem;
+}
+
+.h-16 {
+  height: 4rem;
 }

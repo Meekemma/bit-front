@@ -7,7 +7,7 @@ const Referral = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle the referral code submission here
+    
     console.log('Referral Code Submitted:', referralCode);
   };
 

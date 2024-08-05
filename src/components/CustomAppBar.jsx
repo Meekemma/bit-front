@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,24 +13,26 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext'; // Import AuthContext
 
-const pages = ['Home','company','Markets', 'About-us', 'Account-Type', 'Partners', 'Contact'];
+const pages = ['Home', 'company', 'Markets', 'About-us', 'Account-Type', 'Partners', 'Contact'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const pageRoutes = {
   Home: '/',
-  Company: '/company',
-  'Markets': '/markets', 
-  'About-us': '/about',
+  company: '/company',
+  Markets: '/markets',
+  'About-us': '/about-us',
   'Account-Type': '/account-type',
-  'Partners': '/partner',
-  'Contact': '/contact'
+  Partners: '/partners',
+  Contact: '/contact',
 };
 
 const CustomAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
+  const { logoutUser } = useContext(AuthContext); // Use AuthContext
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -53,8 +55,7 @@ const CustomAppBar = () => {
     if (setting.toLowerCase() !== 'logout') {
       navigate(`/${setting.toLowerCase().replace(/ /g, '-')}`);
     } else {
-      // Handle logout logic here
-      console.log('Logout');
+      logoutUser(); 
     }
   };
 

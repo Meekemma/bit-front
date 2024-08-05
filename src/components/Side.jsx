@@ -25,9 +25,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LockIcon from '@mui/icons-material/Lock';
 import GroupIcon from '@mui/icons-material/Group';
 import { useNavigate } from 'react-router-dom';
-import DashboardCurrency from './DashboardCurrency';
-import DashBoardBalance from './DashBoardBalance';
-import DashBoardFooter from './DashBoardFooter';
+import CustomProfile from './CustomProfile';
 
 const drawerWidth = 240;
 
@@ -188,10 +186,8 @@ const SideNavBar = () => {
         }}
       >
         <div className='my-8 mx-8 relative'>
-          <DashboardCurrency />
-          <DashBoardBalance />
-          <div className='absolute inset-x-0 bottom-0 h-16'>
-          </div>
+          <CustomProfile />
+          
           
         </div>
       </main>
