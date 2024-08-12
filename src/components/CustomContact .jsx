@@ -46,7 +46,7 @@ const CustomContact = () => {
             ></textarea>
           </div>
           <div className="flex items-center justify-between">
-            <button className="create-account-button">Submit Now</button>
+            <button className="create-button">Submit Now</button>
           </div>
         </form>
 

@@ -1,13 +1,15 @@
 import React, { useState, useRef } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import '../styles/CustomCarousel.css';
 import PolicyFooter from './PolicyFooter';
-import axiosInstance from '../utils/axiosInstance';
+import axios from 'axios';
 
 const Verification = () => {
   const [codes, setCodes] = useState(Array(6).fill(''));
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const refs = Array(6)
     .fill()
@@ -29,8 +31,13 @@ const Verification = () => {
   };
 
   const handleResendCode = async () => {
+    const email = localStorage.getItem('email');
+    if (!email) {
+      toast.error('Email not found. Please try again.');
+      return;
+    }
     try {
-      await axiosInstance.post('/resend_code/');
+      await axios.post('http://127.0.0.1:8000/resend_otp/', {email});
       toast.success('Verification code resent');
     } catch (error) {
       console.error('Error resending verification code:', error);
@@ -41,11 +48,16 @@ const Verification = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const code = codes.join('');
+    if (code.length !== 6) {
+      setError('Please enter a complete 6-digit code');
+      return;
+    }
+    setIsLoading(true);
     try {
-      const response = await axiosInstance.post('/verify_code/', { code });
+      const response = await axios.post('http://127.0.0.1:8000/verify_code/', { code });
       if (response.status === 200) {
         toast.success('Code verified successfully');
-        navigate('/profile');
+        navigate('/login');
       } else {
         setError('Invalid verification code');
       }
@@ -53,6 +65,8 @@ const Verification = () => {
       setError('Error verifying code');
       console.error('Error verifying code:', error);
       toast.error('Error verifying code');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -80,13 +94,13 @@ const Verification = () => {
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
             <div className="flex justify-center mb-6">
               <button
-                className="create-button text-white font-bold py-2 px-4 rounded flex-grow focus:outline-none focus:shadow-outline transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
+                className="create-button text-white font-bold py-2 px-4 rounded flex-grow focus:outline-none focus:shadow-outline transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 disabled:opacity-50"
                 type="submit"
+                disabled={isLoading}
               >
-                Continue
+                {isLoading ? 'Submitting...' : 'Continue'}
               </button>
             </div>
-
             <span className="text-gray-600 px-5">
               Didn't receive a verification code?{' '}
               <a
@@ -100,13 +114,9 @@ const Verification = () => {
           </form>
         </div>
       </div>
-
       <div>
         <PolicyFooter />
       </div>
-
-      {/* Add ToastContainer here */}
-      <ToastContainer />
     </>
   );
 };

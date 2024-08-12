@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -47,9 +47,9 @@ const SignUp = () => {
     try {
       const res = await axios.post("http://localhost:8000/register/", formData);
       if (res.status === 201) {
-        navigate("/login");
+        localStorage.setItem('email', formData.email);
+        navigate("/verification");
         toast.success("Registration successful!");
-        
       } else {
         toast.error("Registration failed. Please try again.");
       }
@@ -67,7 +67,7 @@ const SignUp = () => {
 
   return (
     <>
-      <ToastContainer /> {/* Add ToastContainer here */}
+      
       <div className="signup-container">
         <form className="signup-form" onSubmit={handleSubmit}>
           <h2>Create an account</h2>

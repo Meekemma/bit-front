@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext'; 
+import axiosInstance from '../utils/axiosInstance';
+import AuthContext from '../context/AuthContext';
+import { toast } from 'react-toastify';
+
 
 const CustomProfile = () => {
-  const { user, loginUser } = useContext(AuthContext);
- 
+  const { user } = useContext(AuthContext);
+  const [preview, setPreview] = useState('');
+  const [countryOptions, setCountryOptions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const user_id = localStorage.getItem('user_id');
 
   const [formData, setFormData] = useState({
     first_name: '',
@@ -15,9 +20,6 @@ const CustomProfile = () => {
     phone_number: '',
     country: '',
   });
-
-  const [preview, setPreview] = useState('');
-  const [countryOptions, setCountryOptions] = useState([]);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -33,6 +35,33 @@ const CustomProfile = () => {
 
     fetchCountries();
   }, []);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axiosInstance.get(`/user_profile/${user_id}/`);
+        if (response.status === 200) {
+          const userData = response.data;
+          setFormData({
+            first_name: userData.first_name,
+            last_name: userData.last_name,
+            email: userData.email,
+            gender: userData.gender,
+            profile_picture: null,
+            phone_number: userData.phone_number,
+            country: userData.country,
+          });
+          if (userData.profile_picture) {
+            setPreview(userData.profile_picture);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    fetchUserProfile();
+  }, [user_id]);
 
   useEffect(() => {
     if (formData.profile_picture) {
@@ -59,11 +88,34 @@ const CustomProfile = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    loginUser(e);  // This will call the loginUser function from AuthContext
-    // Handle form submission logic for profile
-    console.log(formData);
+    setIsLoading(true);
+
+    const formDataToSend = new FormData();
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
+
+    try {
+      const res = await axiosInstance.put(`/user_profile/${user_id}/`, formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      });
+      if (res.status === 200) {
+        toast.success("Profile successfully updated");
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      if (error.response) {
+        toast.error(error.response.data.message || "Error updating profile");
+      } else {
+        toast.error("Error updating profile");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -73,9 +125,9 @@ const CustomProfile = () => {
         <div className="flex justify-center mb-4">
           {preview && <img src={preview} alt="Profile Preview" className="w-32 h-32 object-cover rounded-full border-2 border-gray-300" />}
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
           <h2 className="text-2xl font-bold mb-4">Custom Profile</h2>
-
+          
           <div className="flex flex-col">
             <label htmlFor="first_name" className="text-sm font-semibold mb-1">First Name</label>
             <input
@@ -112,6 +164,7 @@ const CustomProfile = () => {
               onChange={handleChange}
               required
               className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={true}
             />
           </div>
 
@@ -178,8 +231,9 @@ const CustomProfile = () => {
           <button
             type="submit"
             className="w-full py-2 px-4 bg-[#1D2B53] text-white font-semibold rounded-md hover:bg-[#4A4A4A] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={isLoading}
           >
-            Submit
+            {isLoading ? 'Loading....' : 'Submit'}
           </button>
         </form>
       </div>

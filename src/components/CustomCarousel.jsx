@@ -7,6 +7,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import bitcoin from '../assets/images/bitcoin.png';
 import ethereum from '../assets/images/ethereum.png';
+import '../styles/main.css';
+import '../styles/registration.css';
+import '../styles/CustomCarousel.css';
 
 const carouselItems = [
   {
@@ -34,10 +37,10 @@ const CustomCarousel = () => {
               {item.text}
             </Typography>
             <Box>
-              <Button variant="contained" color="primary" sx={{ mr: 2 }}>
+              <Button variant="contained" className='create-button' sx={{ mr: 2 }}>
                 {item.button1Text}
               </Button>
-              <Button variant="outlined" color="secondary">
+              <Button variant="outlined" className='create-button'>
                 {item.button2Text}
               </Button>
             </Box>

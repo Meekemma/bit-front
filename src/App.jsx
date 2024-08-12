@@ -36,13 +36,13 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/verification" element={<Verification />} />
           <Route path="/referral" element={<Referral />} />
-          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/change-password" element={<PrivateRoute><ChangePassword /></PrivateRoute>} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/login" element={<CustomLogin />} />
           <Route path="/markets" element={<Market />} />
           <Route path="*" element={<PageNotFound />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Side />} />
+          <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+          <Route path="/profile" element={<PrivateRoute><Side /></PrivateRoute>} />
         </Routes>
         <ToastContainer />
       </AuthProvider>

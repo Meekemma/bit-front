@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import google from '../assets/images/google.svg';
 import PolicyFooter from './PolicyFooter';
 import AuthContext from '../context/AuthContext'; // Adjust the path as necessary
@@ -10,7 +10,7 @@ const CustomLogin = () => {
 
   return (
     <>
-      <ToastContainer /> {/* Ensure ToastContainer is included */}
+     
       <div className="signup-container">
         <form className="signup-form" onSubmit={loginUser}>
           <h2>Login</h2>

@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
-const PrivateRoute = ({ children, ...rest }) => {
+const PrivateRoute = ({ children }) => {
   const location = useLocation();
-  const isAuthenticated = false; 
+  const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log('Private route works');
-  }, []);
+  // Check if user data exists to determine if authenticated
+  const isAuthenticated = user !== null || localStorage.getItem('access_token');
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} />;
-  }
-
-  return children;
+  return isAuthenticated ? (
+    children
+  ) : (
+    <Navigate to="/login" state={{ from: location }} />
+  );
 };
 
 export default PrivateRoute;

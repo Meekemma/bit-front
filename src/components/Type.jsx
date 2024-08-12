@@ -33,7 +33,7 @@ const TradingTable = () => {
             </p>
 
             <div className="mt-6">
-              <button className="create-account-button">
+              <button className="create-button">
                 Trade Now
               </button>
             </div>
