@@ -54,7 +54,7 @@ const logoutUser = () => {
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user_id');
     localStorage.removeItem('is_verified');
-    window.location.href = '/login'; // Redirect to login page
+    window.location.href = '/login'; 
 };
 
 export default axiosInstance;

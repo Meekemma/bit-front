@@ -6,7 +6,7 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
   const { user } = useContext(AuthContext);
 
-  // Check if user data exists to determine if authenticated
+  
   const isAuthenticated = user !== null || localStorage.getItem('access_token');
 
   return isAuthenticated ? (

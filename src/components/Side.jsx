@@ -105,7 +105,7 @@ const pages = [
   { name: 'Referral', icon: <GroupIcon />, path: '/referral' },
 ];
 
-const SideNavBar = () => {
+const Side = ({ showProfile = true }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -122,7 +122,6 @@ const SideNavBar = () => {
     navigate(path);
     handleDrawerClose();
   };
-
   return (
     <>
       <CssBaseline />
@@ -186,8 +185,7 @@ const SideNavBar = () => {
         }}
       >
         <div className='my-8 mx-8 relative'>
-          <CustomProfile />
-          
+          {showProfile && <CustomProfile />}
           
         </div>
       </main>
@@ -196,4 +194,4 @@ const SideNavBar = () => {
   );
 };
 
-export default SideNavBar;
+export default Side;

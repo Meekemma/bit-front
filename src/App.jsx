@@ -10,17 +10,21 @@ import Dashboard from './pages/Dashboard';
 import SignUp from './components/SignUp';
 import Verification from './components/Verification';
 import Referral from './components/Referral';
+import ReferralList from './components/ReferralList';
 import ChangePassword from './components/ChangePassword';
 import ResetPassword from './components/ResetPassword';
 import CustomLogin from './components/CustomLogin';
 import PageNotFound from './pages/PageNotFound';
 import Market from './pages/Market';
+
 import Side from './components/Side';
 import PrivateRoute from './utils/PrivateRoute';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './context/AuthContext'; // Import AuthProvider
+import CustomPayment from './pages/CustomPayment';
+
 
 const App = () => {
   return (
@@ -36,11 +40,14 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/verification" element={<Verification />} />
           <Route path="/referral" element={<Referral />} />
+          <Route path="/referral-page" element={<ReferralList />} />
           <Route path="/change-password" element={<PrivateRoute><ChangePassword /></PrivateRoute>} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/login" element={<CustomLogin />} />
           <Route path="/markets" element={<Market />} />
+          <Route path="/deposit" element={<CustomPayment />} />
           <Route path="*" element={<PageNotFound />} />
+          
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/profile" element={<PrivateRoute><Side /></PrivateRoute>} />
         </Routes>

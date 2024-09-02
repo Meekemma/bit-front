@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useEffect  } from 'react';
 import '../styles/CustomCarousel.css';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 
 const CallBack = () => {
+
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+
+
   return (
     <>
-      <div className='trade text-center'>
-        <h4 className='text-4xl font-extrabold'>Request Call Back</h4>
+      <div className='trade text-center' data-aos="fade-up">
+        <h4 className='text-4xl font-extrabold' >Request Call Back</h4>
 
         <form action="/your-endpoint" method="POST" className='mt-8 max-w-lg mx-auto'>
           <div className='mb-4'>
@@ -58,22 +67,22 @@ const CallBack = () => {
 
       <div className='mt-10'>
         <div className='flex flex-wrap justify-center gap-8'>
-          <div className='flex flex-col items-center p-6 rounded-lg shadow-md'>
+          <div className='flex flex-col items-center p-6 rounded-lg shadow-md'data-aos="fade-right">
             <h2 className='text-4xl font-bold text-[#1D2B53]'>15M+</h2>
             <h2 className='text-lg font-medium text-[#4A4A4A]'>Total Asset</h2>
           </div>
 
-          <div className='flex flex-col items-center p-6 rounded-lg shadow-md'>
+          <div className='flex flex-col items-center p-6 rounded-lg shadow-md' data-aos="fade-right">
             <h2 className='text-4xl font-bold text-[#1D2B53]'>13M+</h2>
             <h2 className='text-lg font-medium text-[#4A4A4A]'>Years of experience</h2>
           </div>
 
-          <div className='flex flex-col items-center p-6 rounded-lg shadow-md'>
+          <div className='flex flex-col items-center p-6 rounded-lg shadow-md' data-aos="fade-left">
             <h2 className='text-4xl font-bold text-[#1D2B53]'>2853+</h2>
             <h2 className='text-lg font-medium text-[#4A4A4A]'>Qualified traders</h2>
           </div>
 
-          <div className='flex flex-col items-center p-6 rounded-lg shadow-md'>
+          <div className='flex flex-col items-center p-6 rounded-lg shadow-md' data-aos="fade-left">
             <h2 className='text-4xl font-bold text-[#1D2B53]'>57</h2>
             <h2 className='text-lg font-medium text-[#4A4A4A]'>Countries supported</h2>
           </div>

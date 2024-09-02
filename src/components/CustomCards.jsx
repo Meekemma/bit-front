@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect  } from 'react';
 import { Grid, Card, CardContent, Typography, Box, Divider, Button } from '@mui/material';
 import '../styles/CustomCarousel.css'; // Import CSS for animations
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 
 const cardItems = [
   {
@@ -36,8 +39,13 @@ const cardItems = [
 ];
 
 const TradePlan = () => {
+
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+
   return (
-    <div className="container mx-auto px-4 my-8">
+    <div className="container mx-auto px-4 my-8" data-aos="fade-up">
       <Grid container spacing={4}>
         {cardItems.map((item, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>

@@ -3,7 +3,15 @@ import SideNavBar from '../components/SideNavBar'
 
 const Dashboard = () => {
   return (
-    <SideNavBar />
+    <>
+    
+    
+      <SideNavBar />
+
+      
+      
+
+    </> 
     
   )
 }

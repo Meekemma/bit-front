@@ -1,31 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useContext, useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import CustomAppBar from './CustomAppBar';
 import Trending from './Trending';
-import '../styles/market.css'; 
-
+import '../styles/market.css';
+import CryptoContext from '../context/CryptoContext';
 
 const CustomMarket = () => {
-    const [markets, setMarkets] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const { markets, loading, error } = useContext(CryptoContext);
 
     useEffect(() => {
-        const fetchMarkets = async () => {
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/management/get_currency/');
-                setMarkets(response.data);
-                console.log('Response:', response);
-                console.log('Data:', response.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchMarkets();
+        AOS.init({ duration: 1000 });
     }, []);
 
     if (loading) return <p>Loading...</p>;
@@ -35,9 +20,14 @@ const CustomMarket = () => {
         <>
             <CustomAppBar />
             <Trending />
-            <div className='container mx-auto px-4 my-8'>
-                <h1 className="text-2xl font-bold mb-4 text-center text-[#1D2B53]">Cryptocurrency Market Data</h1>
-                <div className="overflow-x-auto">
+            <div className="container mx-auto px-4 my-8">
+                <h1
+                    className="text-2xl font-bold mb-4 text-center text-[#1D2B53]"
+                    data-aos="fade-down"
+                >
+                    Cryptocurrency Market Data
+                </h1>
+                <div className="overflow-x-auto" data-aos="fade-up">
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                             <tr>
@@ -52,7 +42,7 @@ const CustomMarket = () => {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {markets.map((market) => (
-                                <tr key={market.id}>
+                                <tr key={market.id} data-aos="fade-up">
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <div className="flex items-center">
                                             <img className="w-8 h-8 rounded-full" src={market.image} alt={market.name} />

@@ -6,17 +6,21 @@ import Trade from '../components/Trade';
 import CallBack from '../components/CallBack';
 import Why from '../components/Why';
 import Footer from '../components/Footer';
+import { CryptoContextProvider } from '../context/CryptoContext';
+
 
 const Home = () => {
   return (
     <>
-      <CustomAppBar />
-      <CustomCarousel/>
-      <CustomCards/>
-      <Trade/>  
-      <CallBack/>
-      <Why/>
-      <Footer/>
+      <CryptoContextProvider>
+        <CustomAppBar />
+        <CustomCarousel/>
+        <CustomCards/>
+        <Trade/>  
+        <CallBack/>
+        <Why/>
+        <Footer/>
+      </CryptoContextProvider>
 
     </>
   );

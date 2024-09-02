@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import CustomAppBar from './CustomAppBar';
 import type from '../assets/images/type.jpg'; // Fixed typo in the import statement
 import Footer from './Footer';
 
 const TradingTable = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+    });
+  }, []);
+
   const data = [
     { noHeader: 'Trading Platform', column1: 'MetaTrader 5', column2: 'MetaTrader 5', column3: 'MetaTrader 5' },
     { noHeader: 'Account Currency', column1: 'USD', column2: 'USD', column3: 'USD' },
@@ -25,7 +33,7 @@ const TradingTable = () => {
       <CustomAppBar />
 
       <div className="container mx-auto px-4 my-8">
-        <div className="flex flex-col md:flex-row items-center gap-8">
+        <div className="flex flex-col md:flex-row items-center gap-8" data-aos="fade-up">
           <div className="flex-1">
             <h4 className="text-3xl font-extrabold text-wrap md:text-balance">Trading Account Type</h4>
             <p className="mt-4 text-lg">
@@ -45,7 +53,7 @@ const TradingTable = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 my-8 overflow-x-auto">
+      <div className="container mx-auto px-4 my-8 overflow-x-auto" data-aos="fade-up">
         <table className="min-w-full bg-white border">
           <thead>
             <tr>
@@ -57,9 +65,8 @@ const TradingTable = () => {
           </thead>
           <tbody>
             {data.map((row, index) => (
-              <tr key={index} className="text-left ">
+              <tr key={index} className="text-left">
                 <td className="px-4 py-2 font-bold">{row.noHeader}</td>
-                
                 <td className="px-4 py-2 text-center text-[#36454F]">{row.column1}</td>
                 <td className="px-4 py-2 text-center text-[#36454F]">{row.column2}</td>
                 <td className="px-4 py-2 text-center text-[#36454F]">{row.column3}</td>
@@ -68,21 +75,19 @@ const TradingTable = () => {
           </tbody>
         </table>
 
-        <div className='mt-4'>
-            <h3 className='text-2xl font-extrabold mb-4 md:text-3xl text-[#1D2B53]'>Notes</h3>
+        <div className='mt-4' data-aos="fade-up">
+          <h3 className='text-2xl font-extrabold mb-4 md:text-3xl text-[#1D2B53]'>Notes</h3>
 
-            <ul className='list-outside hover:list-inside'>
-                <li className='my-2'>Spreads are variable and during volatile time spreads might expand.</li>
-                <li className='my-2'>Leverage will be changed as per account size and exposure (lots traded).</li>
-                <li className='my-2'>Please read the trading terms & Conditions for further information. </li>
-            </ul>
-            
+          <ul className='list-outside hover:list-inside'>
+            <li className='my-2'>Spreads are variable and during volatile time spreads might expand.</li>
+            <li className='my-2'>Leverage will be changed as per account size and exposure (lots traded).</li>
+            <li className='my-2'>Please read the trading terms & Conditions for further information. </li>
+          </ul>
         </div>
-        
       </div>
-      <Footer/>
+
+      <Footer />
     </div>
-    
   );
 };
 

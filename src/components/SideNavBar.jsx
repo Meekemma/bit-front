@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect  } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -28,6 +28,8 @@ import { useNavigate } from 'react-router-dom';
 import DashboardCurrency from './DashboardCurrency';
 import DashBoardBalance from './DashBoardBalance';
 import DashBoardFooter from './DashBoardFooter';
+import { CryptoContextProvider } from '../context/CryptoContext';
+
 
 const drawerWidth = 240;
 
@@ -188,7 +190,9 @@ const SideNavBar = () => {
         }}
       >
         <div className='my-8 mx-8 relative'>
-          <DashboardCurrency />
+          <CryptoContextProvider>
+            <DashboardCurrency />
+          </CryptoContextProvider>
           <DashBoardBalance />
           <div className='absolute inset-x-0 bottom-0 h-16'>
           </div>
@@ -201,3 +205,4 @@ const SideNavBar = () => {
 };
 
 export default SideNavBar;
+

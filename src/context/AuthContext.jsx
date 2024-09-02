@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
         setUser(user);
 
         toast.success("Login successful");
-        navigate("/profile");
+        navigate("/dashboard");
       } else {
         toast.error("Login failed. Please try again");
       }
