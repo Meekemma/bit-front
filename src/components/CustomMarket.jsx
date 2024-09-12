@@ -10,7 +10,7 @@ const CustomMarket = () => {
     const { markets, loading, error } = useContext(CryptoContext);
 
     useEffect(() => {
-        AOS.init({ duration: 1000 });
+        AOS.init({ duration: 1000,once: true, });
     }, []);
 
     if (loading) return <p>Loading...</p>;

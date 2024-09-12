@@ -41,7 +41,7 @@ const cardItems = [
 const TradePlan = () => {
 
     useEffect(() => {
-      AOS.init({ duration: 1000 });
+      AOS.init({ duration: 1000,once: true, });
     }, []);
 
   return (

@@ -1,31 +1,50 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import CustomAppBar from './CustomAppBar';
-import type from '../assets/images/type.jpg'; // Fixed typo in the import statement
+import type from '../assets/images/type.jpg'; 
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 import Footer from './Footer';
 
 const TradingTable = () => {
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext); 
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
+      once: true,
     });
   }, []);
+
+  const handleOnClick = () => {
+    if (user) {
+      navigate('/dashboard');
+    } else {
+      navigate('/signup');
+    }
+  };
 
   const data = [
     { noHeader: 'Trading Platform', column1: 'MetaTrader 5', column2: 'MetaTrader 5', column3: 'MetaTrader 5' },
     { noHeader: 'Account Currency', column1: 'USD', column2: 'USD', column3: 'USD' },
     { noHeader: 'Leverage', column1: 'From 1:10 to 1:500', column2: 'From 1:10 to 1:500', column3: 'From 1:10 to 1:500' },
     { noHeader: 'Maximum Deposit', column1: 'No Limit', column2: 'No Limit', column3: 'No Limit' },
-    { noHeader: 'Minmum Deposit', column1: '$100', column2: '$500', column3: '$5000' },
+    { noHeader: 'Minimum Deposit', column1: '$100', column2: '$500', column3: '$5000' },
     { noHeader: 'Order Execution', column1: 'Market', column2: 'Market', column3: 'Market' },
     { noHeader: 'Spread from', column1: '1.5', column2: '1.2', column3: 'RAW' },
     { noHeader: 'Margin Call', column1: '50%', column2: '50%', column3: '50%' },
     { noHeader: 'Stop Out', column1: '30%', column2: '30%', column3: '30%' },
-    { noHeader: 'Swap-Free', column1: 'No%', column2: 'No%', column3: 'No%' },
+    { noHeader: 'Swap-Free', column1: 'No', column2: 'No', column3: 'No' },
     { noHeader: 'Limit & Stop Order', column1: '5 Spread', column2: '5 Spread', column3: '5 Spread' },
-    { noHeader: 'Minimum Volume in Lots/Trade', column1: '5 0.01', column2: '0.01', column3: '0.01' },
-    { noHeader: 'Trading Instruments', column1: 'FX Major, FX Crossess, FX Minor, FX TRY, Spot Metals, CFDs, Spot Indices, Shares, Cryptocurrencies', column2: 'FX Major, FX Crossess, FX Minor, FX TRY, Spot Metals, CFDs, Spot Indices, Shares, Cryptocurrencies', column3: 'FX Major, FX Crossess, FX Minor, FX TRY, Spot Metals, CFDs, Spot Indices, Shares, Cryptocurrencies' },
+    { noHeader: 'Minimum Volume in Lots/Trade', column1: '0.01', column2: '0.01', column3: '0.01' },
+    { 
+      noHeader: 'Trading Instruments', 
+      column1: 'FX Major, FX Crossess, FX Minor, FX TRY, Spot Metals, CFDs, Spot Indices, Shares, Cryptocurrencies', 
+      column2: 'FX Major, FX Crossess, FX Minor, FX TRY, Spot Metals, CFDs, Spot Indices, Shares, Cryptocurrencies', 
+      column3: 'FX Major, FX Crossess, FX Minor, FX TRY, Spot Metals, CFDs, Spot Indices, Shares, Cryptocurrencies' 
+    },
   ];
 
   return (
@@ -41,7 +60,7 @@ const TradingTable = () => {
             </p>
 
             <div className="mt-6">
-              <button className="create-button">
+              <button className="create-button" onClick={handleOnClick}>
                 Trade Now
               </button>
             </div>
@@ -57,19 +76,31 @@ const TradingTable = () => {
         <table className="min-w-full bg-white border">
           <thead>
             <tr>
-              <th className="px-4 py-2"></th>
-              <th className="px-4 py-2">STARTER</th>
-              <th className="px-4 py-2">STANDARD</th>
-              <th className="px-4 py-2">ECN</th>
+              <th className="px-6 py-4"></th> {/* Increased padding */}
+              <th className="px-6 py-4 bg-[#BA0021] text-white">STARTER</th> {/* Increased padding */}
+              <th className="px-6 py-4 bg-[#355e3b] text-white">STANDARD</th>
+              <th className="px-6 py-4 bg-[#0C0404] text-white">ECN</th>
             </tr>
           </thead>
           <tbody>
             {data.map((row, index) => (
               <tr key={index} className="text-left">
-                <td className="px-4 py-2 font-bold">{row.noHeader}</td>
-                <td className="px-4 py-2 text-center text-[#36454F]">{row.column1}</td>
-                <td className="px-4 py-2 text-center text-[#36454F]">{row.column2}</td>
-                <td className="px-4 py-2 text-center text-[#36454F]">{row.column3}</td>
+                <td className="px-6 py-4 font-bold">{row.noHeader}</td> {/* Increased padding */}
+                <td className="px-6 py-4 text-center text-[#36454F] whitespace-normal w-[300px]"> {/* Added width */}
+                  {row.column1.split(', ').map((item, idx) => (
+                    <p key={idx}>{item}</p>
+                  ))}
+                </td>
+                <td className="px-6 py-4 text-center text-[#36454F] whitespace-normal w-[300px]">
+                  {row.column2.split(', ').map((item, idx) => (
+                    <p key={idx}>{item}</p>
+                  ))}
+                </td>
+                <td className="px-6 py-4 text-center text-[#36454F] whitespace-normal w-[300px]">
+                  {row.column3.split(', ').map((item, idx) => (
+                    <p key={idx}>{item}</p>
+                  ))}
+                </td>
               </tr>
             ))}
           </tbody>

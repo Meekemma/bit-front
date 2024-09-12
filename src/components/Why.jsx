@@ -4,7 +4,7 @@ import 'aos/dist/aos.css';
 
 const Why = () => {
   useEffect(() => {
-    AOS.init({ duration: 1000 });
+    AOS.init({ duration: 1000, once: true, });
   }, []);
   return (
     <div className="container mx-auto px-4 my-8">

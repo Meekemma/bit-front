@@ -100,8 +100,6 @@ const pages = [
   { name: 'Transactions', icon: <CompareArrowsIcon />, path: '/transactions' },
   { name: 'Support', icon: <SupportAgentIcon />, path: '/support' },
   { name: 'Profile', icon: <PersonIcon />, path: '/profile' },
-  { name: 'Setting', icon: <SettingsIcon />, path: '/setting' },
-  { name: '2-Factor Authentication', icon: <LockIcon />, path: '/2fa' },
   { name: 'Referral', icon: <GroupIcon />, path: '/referral' },
 ];
 

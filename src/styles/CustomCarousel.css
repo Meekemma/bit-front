@@ -1,14 +1,73 @@
-.carousel-container {
-    height: 89vh;
+
+
+  /* Custom styles for the carousel */
+  body, .parent-container {
+    overflow-x: hidden;
+  }
+
+  .carousel-container {
+    height: 10vh;
     position: relative;
-    margin-bottom: 150px;
+    margin-bottom: 100px;
   }
-  
+.carousel-wrapper {
+  background-color: #1D2B53; /* Awesome background color */
+  padding: 40px 0; /* Add padding to the carousel */
+}
+
+.carousel-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px; /* You can adjust this based on your design */
+  position: relative;
+}
+
+.carousel-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+/* Flex on larger screens */
+@media(min-width: 1024px) {
+  .carousel-content {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-start;
+  }
+
   .carousel-image {
-    height: 100%;
+    max-width: 50%;
+    margin-right: 30px;
     object-fit: cover;
-    
   }
+
+  .carousel-text {
+    max-width: 50%;
+  }
+}
+
+/* Adjusting the image */
+
+/* Styling the buttons */
+.create-button {
+  background-color: #FFD700; /* Gold button color */
+  color: black;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.create-button:hover {
+  background-color: #f0c808;
+}
+
 
 
   .card {

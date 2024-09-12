@@ -7,6 +7,7 @@ import CallBack from '../components/CallBack';
 import Why from '../components/Why';
 import Footer from '../components/Footer';
 import { CryptoContextProvider } from '../context/CryptoContext';
+import AccountStep from '../components/AccountStep';
 
 
 const Home = () => {
@@ -17,6 +18,7 @@ const Home = () => {
         <CustomCarousel/>
         <CustomCards/>
         <Trade/>  
+        <AccountStep />
         <CallBack/>
         <Why/>
         <Footer/>

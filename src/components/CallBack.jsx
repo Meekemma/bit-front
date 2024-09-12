@@ -7,7 +7,7 @@ import 'aos/dist/aos.css';
 const CallBack = () => {
 
   useEffect(() => {
-    AOS.init({ duration: 1000 });
+    AOS.init({ duration: 1000,once: true, });
   }, []);
 
 

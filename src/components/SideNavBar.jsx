@@ -29,6 +29,8 @@ import DashboardCurrency from './DashboardCurrency';
 import DashBoardBalance from './DashBoardBalance';
 import DashBoardFooter from './DashBoardFooter';
 import { CryptoContextProvider } from '../context/CryptoContext';
+import TopMarket from './TopMarket';
+
 
 
 const drawerWidth = 240;
@@ -104,8 +106,6 @@ const pages = [
   { name: 'Transactions', icon: <CompareArrowsIcon />, path: '/transactions' },
   { name: 'Support', icon: <SupportAgentIcon />, path: '/support' },
   { name: 'Profile', icon: <PersonIcon />, path: '/profile' },
-  { name: 'Setting', icon: <SettingsIcon />, path: '/setting' },
-  { name: '2-Factor Authentication', icon: <LockIcon />, path: '/2fa' },
   { name: 'Referral', icon: <GroupIcon />, path: '/referral' },
 ];
 
@@ -194,6 +194,11 @@ const SideNavBar = () => {
             <DashboardCurrency />
           </CryptoContextProvider>
           <DashBoardBalance />
+          <CryptoContextProvider>
+            <TopMarket /> 
+          </CryptoContextProvider>
+          <DashBoardFooter />
+          
           <div className='absolute inset-x-0 bottom-0 h-16'>
           </div>
           

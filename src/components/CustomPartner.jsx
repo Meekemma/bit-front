@@ -12,7 +12,7 @@ import '../styles/CustomCarousel.css';
 
 const CustomPartner = () => {
   useEffect(() => {
-    AOS.init({ duration: 1000 });
+    AOS.init({ duration: 1000,once: true, });
   }, []);
 
   return (
