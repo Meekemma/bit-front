@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axiosInstance from '../utils/axiosInstance';
 import AuthContext from '../context/AuthContext';
 import { toast } from 'react-toastify';
+import DashBoardFooter from './DashBoardFooter';
 
 
 const CustomProfile = () => {
@@ -237,6 +238,8 @@ const CustomProfile = () => {
           </button>
         </form>
       </div>
+
+      <DashBoardFooter />
     </>
   );
 };

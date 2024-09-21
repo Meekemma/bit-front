@@ -24,7 +24,7 @@ const AccountStep = () => {
         <div className='flex justify-around items-center mt-10'>
           {/* Step 1 - Create Account */}
           <div className='text-center'>
-            <div className='w-20 h-20 bg-white text-[#1D2B53] bg-[#e4d00a] font-bold text-3xl rounded-full flex items-center justify-center mx-auto'>
+            <div className='w-20 h-20  text-[#1D2B53] bg-[#e4d00a] font-bold text-3xl rounded-full flex items-center justify-center mx-auto'>
               1
             </div>
             <button 
@@ -37,7 +37,7 @@ const AccountStep = () => {
 
           {/* Step 2 */}
           <div className='text-center'>
-            <div className='w-20 h-20 bg-white text-[#1D2B53] bg-[#355e3b] font-bold text-3xl rounded-full flex items-center justify-center mx-auto'>
+            <div className='w-20 h-20  text-[#1D2B53] bg-[#355e3b] font-bold text-3xl rounded-full flex items-center justify-center mx-auto'>
               2
             </div>
             <p className='text-white mt-4 font-bold'>Make a Deposit</p>
@@ -45,7 +45,7 @@ const AccountStep = () => {
 
           {/* Step 3 */}
           <div className='text-center'>
-            <div className='w-20 h-20 bg-white text-[#1D2B53] bg-[#0C0404] font-bold text-3xl rounded-full flex items-center justify-center mx-auto'>
+            <div className='w-20 h-20  text-[#1D2B53] bg-[#0C0404] font-bold text-3xl rounded-full flex items-center justify-center mx-auto'>
               3
             </div>
             <p className='text-white mt-4 font-bold'>Find Your Trade</p>

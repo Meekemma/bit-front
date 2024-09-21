@@ -1,4 +1,4 @@
-import React, { useContext, useEffect  } from 'react';
+import React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -25,13 +25,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LockIcon from '@mui/icons-material/Lock';
 import GroupIcon from '@mui/icons-material/Group';
 import { useNavigate } from 'react-router-dom';
-import DashboardCurrency from './DashboardCurrency';
-import DashBoardBalance from './DashBoardBalance';
-import DashBoardFooter from './DashBoardFooter';
-import { CryptoContextProvider } from '../context/CryptoContext';
-import TopMarket from './TopMarket';
-
-
+;
 
 const drawerWidth = 240;
 
@@ -108,7 +102,7 @@ const pages = [
   { name: 'Referral', icon: <GroupIcon />, path: '/referral' },
 ];
 
-const SideNavBar = () => {
+const RightSidebar = ({ showProfile = true }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -125,7 +119,6 @@ const SideNavBar = () => {
     navigate(path);
     handleDrawerClose();
   };
-
   return (
     <>
       <CssBaseline />
@@ -181,32 +174,10 @@ const SideNavBar = () => {
           ))}
         </List>
       </Drawer>
-      <main
-        style={{
-          marginLeft: open ? drawerWidth : `calc(${theme.spacing(8)} + 1px)`,
-          transition: 'margin 0.3s',
-          marginTop: '90px', // Adjust this value to push the cards down further
-        }}
-      >
-        <div className='my-8 mx-8 relative'>
-          <CryptoContextProvider>
-            <DashboardCurrency />
-          </CryptoContextProvider>
-          <DashBoardBalance />
-          <CryptoContextProvider>
-            <TopMarket /> 
-          </CryptoContextProvider>
-          <DashBoardFooter />
-          
-          <div className='absolute inset-x-0 bottom-0 h-16'>
-          </div>
-          
-        </div>
-      </main>
+      
       
     </>
   );
 };
 
-export default SideNavBar;
-
+export default RightSidebar;

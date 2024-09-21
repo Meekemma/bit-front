@@ -24,6 +24,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './context/AuthContext'; // Import AuthProvider
 import CustomPayment from './pages/CustomPayment';
+import Withdrawal from './pages/Withdrawal';
+import Transaction from './pages/Transaction';
 
 
 const App = () => {
@@ -46,6 +48,11 @@ const App = () => {
           <Route path="/login" element={<CustomLogin />} />
           <Route path="/markets" element={<Market />} />
           <Route path="/deposit" element={<CustomPayment />} />
+
+          <Route path="/withdrawal" element={<Withdrawal />} />
+          <Route path="/Transactions" element={<Transaction />} />
+
+
           <Route path="*" element={<PageNotFound />} />
           
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />

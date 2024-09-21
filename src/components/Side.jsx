@@ -98,7 +98,6 @@ const pages = [
   { name: 'Deposit', icon: <AccountBalanceIcon />, path: '/deposit' },
   { name: 'WithDrawal', icon: <MoneyOffIcon />, path: '/withdrawal' },
   { name: 'Transactions', icon: <CompareArrowsIcon />, path: '/transactions' },
-  { name: 'Support', icon: <SupportAgentIcon />, path: '/support' },
   { name: 'Profile', icon: <PersonIcon />, path: '/profile' },
   { name: 'Referral', icon: <GroupIcon />, path: '/referral' },
 ];
