@@ -33,10 +33,10 @@ const CustomWithdrawal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
+  
     try {
-      const response = await axiosInstance.post('payment/withdrawal/', formData); // Correct variable formData
-      if (response.status==201) {
+      const response = await axiosInstance.post('payment/withdrawal/', formData);
+      if (response.status === 201) {
         toast.success("Processing Withdrawal");
         setFormData({
           amount: '',
@@ -50,18 +50,42 @@ const CustomWithdrawal = () => {
         });
       }
     } catch (error) {
-      if (error.response) {
-        toast.error(error.response.data.message);
+      if (error.response && error.response.data) {
+        const errorData = error.response.data;
+        const shownMessages = new Set();
+  
+        // Display field-specific errors
+        Object.keys(errorData).forEach((field) => {
+          if (Array.isArray(errorData[field])) {
+            errorData[field].forEach((message) => {
+              if (!shownMessages.has(message)) {
+                toast.error(message);
+                shownMessages.add(message);
+              }
+            });
+          }
+        });
+  
+        // Handle non-field errors specifically
+        if (errorData.non_field_errors && Array.isArray(errorData.non_field_errors)) {
+          errorData.non_field_errors.forEach((message) => {
+            if (!shownMessages.has(message)) {
+              toast.error(message);
+              shownMessages.add(message);
+            }
+          });
+        }
       } else {
         toast.error("An error occurred. Please try again.");
       }
     } finally {
       setIsLoading(false);
     }
-    
-    
-    
   };
+  
+  
+  
+  
 
   return (
     <> 

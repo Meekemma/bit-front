@@ -16,10 +16,12 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LockIcon from '@mui/icons-material/Lock';
@@ -30,6 +32,7 @@ import DashBoardBalance from './DashBoardBalance';
 import DashBoardFooter from './DashBoardFooter';
 import { CryptoContextProvider } from '../context/CryptoContext';
 import TopMarket from './TopMarket';
+import AuthContext from '../context/AuthContext';
 
 
 
@@ -101,17 +104,21 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const pages = [
   { name: 'Home', icon: <HomeIcon />, path: '/' },
+  { name: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
   { name: 'Deposit', icon: <AccountBalanceIcon />, path: '/deposit' },
   { name: 'WithDrawal', icon: <MoneyOffIcon />, path: '/withdrawal' },
   { name: 'Transactions', icon: <CompareArrowsIcon />, path: '/transactions' },
   { name: 'Profile', icon: <PersonIcon />, path: '/profile' },
   { name: 'Referral', icon: <GroupIcon />, path: '/referral' },
+  { name: 'Logout', icon: <LogoutIcon />, path: '' },
 ];
 
 const SideNavBar = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
+
+  const { logoutUser } = useContext(AuthContext);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -121,9 +128,13 @@ const SideNavBar = () => {
     setOpen(false);
   };
 
-  const handlePageClick = (path) => {
-    navigate(path);
-    handleDrawerClose();
+  const handlePageClick = (path, pageName) => {
+    if (pageName === 'Logout') {
+      logoutUser(); // Trigger the logout function
+    } else {
+      navigate(path);
+      handleDrawerClose();
+    }
   };
 
   return (
@@ -164,7 +175,7 @@ const SideNavBar = () => {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
-                onClick={() => handlePageClick(page.path)}
+                onClick={() => handlePageClick(page.path, page.name)} // Pass page name to handler
               >
                 <ListItemIcon
                   sx={{

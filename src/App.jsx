@@ -14,6 +14,7 @@ import ReferralList from './components/ReferralList';
 import ChangePassword from './components/ChangePassword';
 import ResetPassword from './components/ResetPassword';
 import CustomLogin from './components/CustomLogin';
+
 import PageNotFound from './pages/PageNotFound';
 import Market from './pages/Market';
 
@@ -26,6 +27,7 @@ import { AuthProvider } from './context/AuthContext'; // Import AuthProvider
 import CustomPayment from './pages/CustomPayment';
 import Withdrawal from './pages/Withdrawal';
 import Transaction from './pages/Transaction';
+import CookieConsent from './components/CookieConsent';
 
 
 const App = () => {
@@ -57,8 +59,11 @@ const App = () => {
           
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/profile" element={<PrivateRoute><Side /></PrivateRoute>} />
+
         </Routes>
         <ToastContainer />
+        <CookieConsent />
+        
       </AuthProvider>
     </Router>
   );

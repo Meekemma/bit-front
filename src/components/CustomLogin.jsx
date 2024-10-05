@@ -6,7 +6,7 @@ import PolicyFooter from './PolicyFooter';
 import AuthContext from '../context/AuthContext'; // Adjust the path as necessary
 
 const CustomLogin = () => {
-  const { formData, handleChange, loginUser } = useContext(AuthContext);
+  const { formData, handleChange, loginUser,loginWithGoogle } = useContext(AuthContext);
 
   return (
     <>
@@ -43,7 +43,7 @@ const CustomLogin = () => {
         </p>
         <div className='text-center'>
           <h2>OR</h2>
-          <button className="google-button">
+          <button className="google-button" onClick={loginWithGoogle}>
             <img src={google} alt="Google logo" className="google-logo" />
             Continue with Google
           </button>

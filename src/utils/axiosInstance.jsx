@@ -12,8 +12,8 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(async req => {
-    let token = localStorage.getItem('access_token') ? JSON.parse(localStorage.getItem('access_token')) : null;
-    const refresh_token = localStorage.getItem('refresh_token') ? JSON.parse(localStorage.getItem('refresh_token')) : null;
+    let token = localStorage.getItem('access_token') ? localStorage.getItem('access_token') : null;
+    const refresh_token = localStorage.getItem('refresh_token') ? localStorage.getItem('refresh_token') : null;
 
     if (token) {
         const user = jwtDecode(token);
@@ -28,7 +28,7 @@ axiosInstance.interceptors.request.use(async req => {
             const response = await axios.post(`${baseURL}token/refresh/`, { refresh: refresh_token });
             if (response.status === 200) {
                 const newAccessToken = response.data.access;
-                localStorage.setItem('access_token', JSON.stringify(newAccessToken));
+                localStorage.setItem('access_token', newAccessToken);
                 req.headers.Authorization = `Bearer ${newAccessToken}`;
                 console.log('New token set in headers');
                 return req;

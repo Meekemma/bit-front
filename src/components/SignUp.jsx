@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import axios from 'axios';
@@ -8,8 +8,13 @@ import '../styles/registration.css';
 import '../styles/CustomCarousel.css';
 import google from '../assets/images/google.svg';
 import PolicyFooter from './PolicyFooter';
+import AuthContext from '../context/AuthContext'; 
 
 const SignUp = () => {
+    
+  const  {loginWithGoogle} = useContext(AuthContext);
+
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     first_name: '',
@@ -135,7 +140,7 @@ const SignUp = () => {
         </p>
         <div className='text-center'>
           <h2>OR</h2>
-          <button className="google-button">
+          <button className="google-button" onClick={loginWithGoogle}>
             <img src={google} alt="Google logo" className="google-logo" />
             Continue with Google
           </button>

@@ -2,6 +2,9 @@ import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import useGoogleResponse from '../utils/useGoogleResponse'; 
+
+
 
 const AuthContext = createContext();
 
@@ -14,6 +17,8 @@ export const AuthProvider = ({ children }) => {
     email: '',
     password: ''
   });
+
+  useGoogleResponse();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,10 +47,13 @@ export const AuthProvider = ({ children }) => {
       };
 
       if (res.status === 200) {
+
+        const accessToken = response.access;
+        const refreshToken = response.refresh;
         
         localStorage.setItem('user', JSON.stringify(user))
-        localStorage.setItem('access_token', JSON.stringify(response.access));
-        localStorage.setItem('refresh_token', JSON.stringify(response.refresh));
+        localStorage.setItem('access_token', accessToken);  // Store directly
+        localStorage.setItem('refresh_token', refreshToken);
         localStorage.setItem('user_id', JSON.stringify(response.user_id));
         localStorage.setItem('is_verified', JSON.stringify(response.is_verified));
         
@@ -65,6 +73,41 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+
+
+  const loginWithGoogle = () => {
+    const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
+    const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
+    const GOOGLE_OAUTH_CLIENT_ID = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
+    
+    // Correctly concatenate BASE_API_URL with the endpoint
+    const REDIRECT_URI = `${BASE_API_URL}/google-login/`;
+
+    const scope = [
+        'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/userinfo.profile'
+    ].join(' ');
+
+    const params = {
+        response_type: 'code',
+        client_id: GOOGLE_OAUTH_CLIENT_ID,
+        redirect_uri: REDIRECT_URI,
+        prompt: 'select_account',
+        access_type: 'offline',
+        scope
+    };
+
+    const urlParams = new URLSearchParams(params).toString();
+    window.location = `${GOOGLE_AUTH_URL}?${urlParams}`;
+    
+
+    
+}
+
+
+
+
+
   const logoutUser = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('access_token');
@@ -80,6 +123,7 @@ export const AuthProvider = ({ children }) => {
     handleChange,
     user,
     loginUser,
+    loginWithGoogle,
     logoutUser
   };
 
@@ -87,5 +131,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider value={contextData}>
       {children}
     </AuthContext.Provider>
+
+    
   );
 };

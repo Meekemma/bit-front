@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -16,16 +16,15 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import PersonIcon from '@mui/icons-material/Person';
-import SettingsIcon from '@mui/icons-material/Settings';
-import LockIcon from '@mui/icons-material/Lock';
+import LogoutIcon from '@mui/icons-material/Logout';
 import GroupIcon from '@mui/icons-material/Group';
 import { useNavigate } from 'react-router-dom';
-;
+import AuthContext from '../context/AuthContext'; // Import the AuthContext for logout functionality
 
 const drawerWidth = 240;
 
@@ -90,22 +89,26 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
       ...closedMixin(theme),
       '& .MuiDrawer-paper': closedMixin(theme),
     }),
-  }),
+  })
 );
 
 const pages = [
   { name: 'Home', icon: <HomeIcon />, path: '/' },
+  { name: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
   { name: 'Deposit', icon: <AccountBalanceIcon />, path: '/deposit' },
   { name: 'WithDrawal', icon: <MoneyOffIcon />, path: '/withdrawal' },
   { name: 'Transactions', icon: <CompareArrowsIcon />, path: '/transactions' },
   { name: 'Profile', icon: <PersonIcon />, path: '/profile' },
   { name: 'Referral', icon: <GroupIcon />, path: '/referral' },
+  { name: 'Logout', icon: <LogoutIcon />, path: '' }, // Logout page with no path
 ];
 
 const RightSidebar = ({ showProfile = true }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
+
+  const { logoutUser } = useContext(AuthContext); // Use logout function from AuthContext
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -115,10 +118,15 @@ const RightSidebar = ({ showProfile = true }) => {
     setOpen(false);
   };
 
-  const handlePageClick = (path) => {
-    navigate(path);
-    handleDrawerClose();
+  const handlePageClick = (path, pageName) => {
+    if (pageName === 'Logout') {
+      logoutUser(); // Trigger the logout function
+    } else {
+      navigate(path);
+      handleDrawerClose();
+    }
   };
+
   return (
     <>
       <CssBaseline />
@@ -157,7 +165,7 @@ const RightSidebar = ({ showProfile = true }) => {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
-                onClick={() => handlePageClick(page.path)}
+                onClick={() => handlePageClick(page.path, page.name)} // Pass page name to handler
               >
                 <ListItemIcon
                   sx={{
@@ -174,8 +182,6 @@ const RightSidebar = ({ showProfile = true }) => {
           ))}
         </List>
       </Drawer>
-      
-      
     </>
   );
 };

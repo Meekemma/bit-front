@@ -4,6 +4,8 @@ import 'aos/dist/aos.css';
 import coingecko from '../assets/images/coingecko.svg';
 import coinpayments from '../assets/images/CoinPayments.svg';
 import binance from '../assets/images/Binance.svg';
+import Forex from './Forex';
+
 
 const Why = () => {
   useEffect(() => {
@@ -11,12 +13,14 @@ const Why = () => {
   }, []);
 
   return (
+    <>
     <div className="container mx-auto px-4 my-8">
       <div className="flex flex-col md:flex-row gap-8">
         <div className="flex-1" data-aos="fade-right">
           {/* Placeholder for trade-related content or images */}
           <div className="trade">
-            {/* Trade-related content */}
+            <Forex />
+            
           </div>
         </div>
 
@@ -59,6 +63,7 @@ const Why = () => {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

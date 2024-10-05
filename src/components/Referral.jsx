@@ -7,12 +7,11 @@ import PolicyFooter from './PolicyFooter';
 import axiosInstance from '../utils/axiosInstance';
 
 const Referral = () => {
-  const [referralCode, setReferralCode] = useState('');
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    referral: '',
+    code: '', // Update key to 'code' since that's what the backend expects
   });
 
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -26,25 +25,27 @@ const Referral = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { referral } = formData;
-    if (referral.length > 6) {
-      toast.error("Invalid referral code");
+    const { code } = formData;
+    
+    // Adjust length validation if necessary (based on your referral code logic)
+    if (code.length !== 7) {  // Assuming the code is 7 characters long based on the example
+      toast.error("Invalid referral code length");
       return;
     }
 
     setIsLoading(true);
 
     try {
-      const res = await axiosInstance.post("/management/referrals/", formData);
-      if (res.status === 200) {
+      const res = await axiosInstance.post("/management/referrals/", { code });  // Send only the 'code'
+      if (res.status === 201 || res.status === 200) { // Handle both success statuses
+        toast.success("Valid referral code");
         navigate("/login");
-        toast.success("Valid referral Code");
       } else {
         toast.error("Invalid referral code");
       }
     } catch (error) {
       if (error.response) {
-        toast.error(error.response.data.message);
+        toast.error(error.response.data.message || "Invalid referral code");
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -61,8 +62,8 @@ const Referral = () => {
           <form onSubmit={handleSubmit} className="form-group">
             <input
               type="text"
-              name="referral"
-              value={formData.referral}
+              name="code"
+              value={formData.code}  // Bind to the correct formData key
               onChange={handleChange}
               placeholder="Enter referral code (Optional)"
             />

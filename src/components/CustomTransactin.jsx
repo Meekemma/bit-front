@@ -8,14 +8,36 @@ const CustomTransaction = () => {
   const [transaction, setTransaction] = useState('All');
   const [withdrawals, setWithdrawals] = useState([]);
   const [deposits, setDeposits] = useState([]);
+  const [allTransaction, setAllTransaction] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Fetch "All" transactions on component mount
+    fetchAllTransaction();
+  }, []); // Empty dependency array ensures this runs only once on component mount
 
   const handleTypeChange = (type) => {
     setTransaction(type);
     if (type === 'Withdrawal') {
-      fetchWithdrawal(); 
+      fetchWithdrawal();
     } else if (type === 'Deposit') {
       fetchDeposit();
+    } else {
+      fetchAllTransaction();
+    }
+  };
+
+  const fetchAllTransaction = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get('payment/all_transaction');
+      if (response.status === 200) {
+        setAllTransaction(response.data || []);
+      }
+    } catch (error) {
+      console.error('Error fetching all transactions:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,6 +69,43 @@ const CustomTransaction = () => {
     }
   };
 
+  const renderTransaction = (transaction) => (
+    <div key={transaction.id} className="p-4 border-b border-gray-200">
+      <p><strong>Amount:</strong> {transaction.amount}</p>
+
+      {/* If the transaction is a bank withdrawal */}
+      {transaction.bank_name && (
+        <>
+          <p><strong>Bank Name:</strong> {transaction.bank_name}</p>
+          <p><strong>Bank Account Number:</strong> {transaction.bank_account_number}</p>
+          <p><strong>Bank Account Name:</strong> {transaction.bank_account_name}</p>
+          <p><strong>SWIFT Code:</strong> {transaction.bank_swift_code}</p>
+          <p><strong>Routing Number:</strong> {transaction.bank_routing_number}</p>
+        </>
+      )}
+
+      {/* If the transaction is a cryptocurrency deposit */}
+      {transaction.crypto_currency && (
+        <>
+          <p><strong>Cryptocurrency:</strong> {transaction.crypto_currency}</p>
+          <p><strong>Crypto Address:</strong> {transaction.crypto_address}</p>
+        </>
+      )}
+
+      {/* If the transaction is a deposit */}
+      {transaction.currency_original && (
+        <>
+          <p><strong>Original Currency:</strong> {transaction.currency_original}</p>
+          <p><strong>Paid Currency:</strong> {transaction.currency_paid}</p>
+          <p><strong>Amount Paid:</strong> {transaction.amount_paid}</p>
+        </>
+      )}
+
+      <p><strong>Status:</strong> {transaction.status}</p>
+      <p><strong>Date:</strong> {new Date(transaction.created_at).toLocaleDateString()}</p>
+    </div>
+  );
+
   return (
     <>
       <div className="container mx-auto px-4 my-8">
@@ -73,7 +132,15 @@ const CustomTransaction = () => {
           <div className="mt-4">
             {transaction === 'All' && (
               <div>
-                <p>Displaying all transactions including deposits and withdrawals.</p>
+                {loading ? (
+                  <p>Loading all transactions...</p>
+                ) : allTransaction.length === 0 ? (
+                  <p>No transactions found.</p>
+                ) : (
+                  <div className="text-[#1D2B53]">
+                    {allTransaction.map(renderTransaction)}
+                  </div>
+                )}
               </div>
             )}
 
@@ -84,26 +151,8 @@ const CustomTransaction = () => {
                 ) : deposits.length === 0 ? (
                   <p>No deposits found.</p>
                 ) : (
-                  <div className='text-[#1D2B53]'>
-                    {deposits.map((deposit) => (
-                      <div key={deposit.id} className="p-4 border-b border-gray-200">
-                        <p>
-                          <strong>Amount:</strong> {deposit.amount}
-                        </p>
-                        <p>
-                          <strong>Original Currency:</strong> {deposit.currency_original}
-                        </p>
-                        <p>
-                          <strong>Paid Currency:</strong> {deposit.currency_paid}
-                        </p>
-                        <p>
-                          <strong>Amount Paid:</strong> {deposit.amount_paid}
-                        </p>
-                        <p>
-                          <strong>Status:</strong> {deposit.status}
-                        </p>
-                      </div>
-                    ))}
+                  <div className="text-[#1D2B53]">
+                    {deposits.map(renderTransaction)}
                   </div>
                 )}
               </div>
@@ -116,51 +165,8 @@ const CustomTransaction = () => {
                 ) : withdrawals.length === 0 ? (
                   <p>No withdrawals found.</p>
                 ) : (
-                  <div className='text-[#1D2B53]'>
-                    {withdrawals.map((withdrawal) => (
-                      <div key={withdrawal.id} className="p-4 border-b border-gray-200">
-                        <p>
-                          <strong>Amount:</strong> {withdrawal.amount}
-                        </p>
-                        
-                        {withdrawal.crypto_currency ? (
-                          <>
-                            <p>
-                              <strong>Cryptocurrency:</strong> {withdrawal.crypto_currency}
-                            </p>
-                            <p>
-                              <strong>Crypto Address:</strong> {withdrawal.crypto_address}
-                            </p>
-                          </>
-                        ) : (
-                          <>
-                            <p>
-                              <strong>Bank Name:</strong> {withdrawal.bank_name}
-                            </p>
-                            <p>
-                              <strong>Bank Account Number:</strong> {withdrawal.bank_account_number}
-                            </p>
-                            <p>
-                              <strong>Bank Account Name:</strong> {withdrawal.bank_account_name}
-                            </p>
-                            <p>
-                              <strong>SWIFT Code:</strong> {withdrawal.bank_swift_code}
-                            </p>
-                            <p>
-                              <strong>Routing Number:</strong> {withdrawal.bank_routing_number}
-                            </p>
-                          </>
-                        )}
-
-                        <p>
-                          <strong>Status:</strong> {withdrawal.status}
-                        </p>
-
-                        <p>
-                          <strong>Date:</strong> {new Date(withdrawal.created_at).toLocaleDateString()}
-                        </p>
-                      </div>
-                    ))}
+                  <div className="text-[#1D2B53]">
+                    {withdrawals.map(renderTransaction)}
                   </div>
                 )}
               </div>

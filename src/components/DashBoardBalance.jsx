@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 const DashBoardBalance = () => {
     const [totalBonus, setTotalBonus] = useState('0.00');
     const [totalReferees, setTotalReferees] = useState(0);
+    const [balance, setBalance] = useState('0.00'); 
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const user_id = localStorage.getItem('user_id');
@@ -23,21 +24,33 @@ const DashBoardBalance = () => {
                 } else {
                     toast.error('An error occurred.');
                 }
-            } finally {
-                setIsLoading(false);
             }
         };
 
-        fetchReferralStats();
+        const fetchBalance = async () => {
+            try {
+                const response = await axiosInstance.get(`/payment/total_balance/`);
+                setBalance(response.data.balance); // Update the balance state with the response
+            } catch (error) {
+                console.error(error); // Log error for debugging
+                toast.error('Failed to fetch balance.');
+            }
+        };
+
+        const fetchData = async () => {
+            await fetchReferralStats();
+            await fetchBalance();
+            setIsLoading(false);
+        };
+
+        fetchData();
     }, [user_id]);
 
     const handleMoreClick = () => {
         navigate('/referral-page'); 
     };
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+    
 
     return (
         <div className='flex flex-wrap justify-between my-8'>
@@ -47,7 +60,7 @@ const DashBoardBalance = () => {
                     <p className='text-xl md:text-2xl font-bold text-white'>BTC 0.000</p>
                 </div>
                 <div>
-                    <p className='text-xl md:text-2xl font-bold text-white'>$0.000</p>
+                    <p className='text-xl md:text-2xl font-bold text-white'>${balance}</p> {/* Display the balance here */}
                 </div>
             </div>
             <div className='card bg-[#1D2B53] p-4 rounded-lg shadow-lg flex-1 mx-2 my-2 h-auto min-h-[200px] flex flex-col justify-between'>

@@ -4,7 +4,6 @@ import AuthContext from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import DashBoardFooter from './DashBoardFooter';
 
-
 const CustomProfile = () => {
   const { user } = useContext(AuthContext);
   const [preview, setPreview] = useState('');
@@ -94,9 +93,15 @@ const CustomProfile = () => {
     setIsLoading(true);
 
     const formDataToSend = new FormData();
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
-    }
+    Object.keys(formData).forEach((key) => {
+      if (formData[key] !== null && formData[key] !== undefined) {
+        if (key === 'profile_picture' && formData[key] instanceof File) {
+          formDataToSend.append(key, formData[key]); // Only append if profile picture is a file
+        } else if (key !== 'profile_picture') {
+          formDataToSend.append(key, formData[key]); // Append other fields normally
+        }
+      }
+    });
 
     try {
       const res = await axiosInstance.put(`/user_profile/${user_id}/`, formDataToSend, {
@@ -121,7 +126,6 @@ const CustomProfile = () => {
 
   return (
     <>
-      <h2>{user ? user.names : 'Loading...'}</h2>
       <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
         <div className="flex justify-center mb-4">
           {preview && <img src={preview} alt="Profile Preview" className="w-32 h-32 object-cover rounded-full border-2 border-gray-300" />}
@@ -180,9 +184,9 @@ const CustomProfile = () => {
               className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
             </select>
           </div>
 
