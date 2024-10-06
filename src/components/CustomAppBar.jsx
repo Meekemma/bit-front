@@ -15,6 +15,9 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext'; // Import AuthContext
 
+
+
+
 const pages = ['Home', 'company', 'Markets', 'About-us', 'Account-Type', 'Partners', 'Contact'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -33,6 +36,11 @@ const CustomAppBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
   const { logoutUser } = useContext(AuthContext); // Use AuthContext
+
+  // Check if tokens are in localStorage
+  const accessToken = localStorage.getItem('access_token');
+  const refreshToken = localStorage.getItem('refresh_token');
+  const isAuthenticated = accessToken && refreshToken; // Boolean flag for auth status
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -55,8 +63,16 @@ const CustomAppBar = () => {
     if (setting.toLowerCase() !== 'logout') {
       navigate(`/${setting.toLowerCase().replace(/ /g, '-')}`);
     } else {
-      logoutUser(); 
+      logoutUser(); // Trigger logout
     }
+  };
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+
+  const handleSignupClick = () => {
+    navigate('/signup');
   };
 
   return (
@@ -137,6 +153,7 @@ const CustomAppBar = () => {
           >
             BOBBYGRAM
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -150,34 +167,74 @@ const CustomAppBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={() => handleCloseUserMenu('')}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+  {isAuthenticated ? (
+    <>
+      <Tooltip title="Open settings">
+        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+        </IconButton>
+      </Tooltip>
+      <Menu
+        sx={{ mt: '45px' }}
+        id="menu-appbar"
+        anchorEl={anchorElUser}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={Boolean(anchorElUser)}
+        onClose={() => handleCloseUserMenu('')}
+      >
+        {settings.map((setting) => (
+          <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
+            <Typography textAlign="center">{setting}</Typography>
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  ) : (
+    <>
+      <Button
+        
+        onClick={handleLoginClick}
+        sx={{
+          backgroundColor: '#4A4A4A',
+          color: 'white',
+          marginRight: 2,
+          borderRadius: '10px', // Adding border-radius
+          '&:hover': {
+            backgroundColor: '#4A4A4A', // Hover effect
+            color: 'black', // Changing text color on hover
+          },
+        }}
+      >
+        Login
+      </Button>
+      <Button
+        
+        onClick={handleSignupClick}
+        sx={{
+          backgroundColor: '#4A4A4A',
+          color: 'white',
+          borderRadius: '10px', // Adding border-radius
+          '&:hover': {
+            backgroundColor: '#4A4A4A', // Hover effect
+            color: 'black', // Changing text color on hover
+          },
+        }}
+      >
+        Signup
+      </Button>
+    </>
+  )}
+</Box>
+
+
         </Toolbar>
       </Container>
     </AppBar>
@@ -185,7 +242,3 @@ const CustomAppBar = () => {
 };
 
 export default CustomAppBar;
-
-
-
-

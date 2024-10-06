@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import google from '../assets/images/google.svg';
 import PolicyFooter from './PolicyFooter';
 import AuthContext from '../context/AuthContext'; // Adjust the path as necessary
+import '../styles/main.css';
 
 const CustomLogin = () => {
   const { formData, handleChange, loginUser,loginWithGoogle } = useContext(AuthContext);
@@ -41,13 +42,16 @@ const CustomLogin = () => {
         <p className="login-link">
           Don't have an account? <a href="/signup">Sign Up</a>
         </p>
-        <div className='text-center'>
-          <h2>OR</h2>
+        <div className="text-center">
+          <div className="or-divider">
+            <span>OR</span>
+          </div>
           <button className="google-button" onClick={loginWithGoogle}>
             <img src={google} alt="Google logo" className="google-logo" />
             Continue with Google
           </button>
         </div>
+
       </div>
       <PolicyFooter />
     </>

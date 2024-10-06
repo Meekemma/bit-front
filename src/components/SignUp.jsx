@@ -138,8 +138,10 @@ const SignUp = () => {
         <p className="login-link">
           Already have an account? <a href="/login">Login</a>
         </p>
-        <div className='text-center'>
-          <h2>OR</h2>
+        <div className="text-center">
+          <div className="or-divider">
+            <span>OR</span>
+          </div>
           <button className="google-button" onClick={loginWithGoogle}>
             <img src={google} alt="Google logo" className="google-logo" />
             Continue with Google

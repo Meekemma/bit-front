@@ -1,0 +1,24 @@
+.or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .or-divider::before,
+  .or-divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #928b8b; /* Adjust the color as needed */
+  }
+  
+  .or-divider::before {
+    margin-right: 10px;
+  }
+  
+  .or-divider::after {
+    margin-left: 10px;
+  }
+  
+
+  

@@ -4,10 +4,11 @@ import Footer from './Footer';
 import { FaWhatsapp, FaInstagram, FaLinkedin, FaFacebook, FaTiktok } from 'react-icons/fa';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import CustomMap from './CustomMap';
 
 const CustomContact = () => {
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true, });
+    AOS.init({ duration: 1000, once: true });
   }, []);
 
   return (
@@ -15,13 +16,15 @@ const CustomContact = () => {
       <CustomAppBar />
 
       <div className="container mx-auto px-4 my-8">
+
         <h2
           className="text-3xl font-bold mb-4 text-center"
           data-aos="fade-up"
         >
-          Contact Us
+          Contact Now
         </h2>
-        <form className="max-w-lg mx-auto" data-aos="fade-up">
+        
+        <form className="max-w-lg mx-auto my-4" data-aos="fade-up">
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
@@ -69,12 +72,14 @@ const CustomContact = () => {
           </div>
         </form>
 
+        <CustomMap />
+
         <div className="trade mt-8" data-aos="fade-in">
           <div className="flex flex-col items-center md:flex-row md:justify-between">
             <div className="text-left mb-4 md:mb-0">
               <h4 className="text-4xl font-extrabold">Share and follow</h4>
               <p className="mt-3">
-                Looking cautiously round, to ascertain that they were not overheard
+                Casting a wary glance to see if they were being overheard.
               </p>
             </div>
 
